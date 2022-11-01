@@ -6,24 +6,33 @@ int main() {
     int n;
     scanf("%d", &n);
 
-    // Allocate n strings with 20 characters each
-    char** names = malloc(n * 20);
+    // Allocate n strings with space for two 20 character names seperated by one character each
+    char** names = malloc(n * (20 * 2 + 1));
 
     // Name count without duplicates
     int count = 0;
 
-    // Go through every string and check if it already exists in the array
+    // Store all first names
     for (int i = 0; i < n; i++) {
-        char* name = malloc(20);
-        scanf("%s", name);
-        names[i] = name;
+        char* first_name = malloc(20);
+        scanf("%s", first_name);
+        names[i] = first_name;
+    }
 
+    for (int i = 0; i < n; i++) {
+        char* surname = malloc(20);
+        scanf("%s", surname);
+        
+        strcat(names[i], ",");
+        strcat(names[i], surname);
+
+        // Check every previous full name and say it's new if it doesn't match any
         _Bool isNew = 1;
         for (int j = 0; j < i; j++)
-            if (strcmp(names[j], name) == 0) // Already exists in array
+            if (strcmp(names[i], names[j]) == 0) // Already exists in array
                 isNew = 0;
         
-        if (isNew == 1)
+        if (isNew)
             count++;
     }
 
